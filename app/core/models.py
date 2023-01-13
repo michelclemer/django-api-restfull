@@ -9,9 +9,21 @@ from django.db import models
 class UserManager(BaseUserManager):
     """Manager for users."""
 
-    def create_user(self, email, password=None, **extra_field):
+    def create_user(self, email, password=None, **extra_fields):
         """Create, save and return a new user."""
-        user = self.model(email=email, **extra_field)
+        if not email:
+            raise ValueError('User must have an email address.')
+        user = self.model(email=self.normalize_email(email), **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, password):
+        """Create, save and return new superuser"""
+        if not email:
+            raise ValueError("User must have an email address")
+        user = self.model(email=self.normalize_email(email), is_staff=True, is_superuser=True)
         user.set_password(password)
         user.save(using=self._db)
 
