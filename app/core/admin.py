@@ -30,7 +30,7 @@ class UserAdmin(BaseUserAdmin):
         (_('Important dates here'), {'fields': ('last_login',)})
     )
     add_fieldsets = (
-        (None,{
+        (None, {
             'classes': ('wide',),
             'fields': (
                 'email',
@@ -40,7 +40,7 @@ class UserAdmin(BaseUserAdmin):
                 'is_active',
                 'is_staff',
                 'is_superuser',
-            )
+            ),
         }),
     )
 
